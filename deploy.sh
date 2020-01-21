@@ -11,5 +11,5 @@ cd /var/www/releases/release && yarn encore production
 dateValue = `$(date +%Y%m%d%H%M%S)`
 cd /var/www/releases && mkdir $dateValue
 cd /var/www/releases && mv releases $dateValue
-ln -l /var/www/releases/$dateValue /var/www/current
+ln -s /var/www/releases/$dateValue /var/www/current
 rm -rf /var/www/releases/release
