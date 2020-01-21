@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+{% block title %}{{ 'Weather status page'|trans() }}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{'Status page'|trans()}}</h1>
+    <table id="weatherTable" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>{{'#ID'|trans() }}</th>
+            <th>{{'Date'|trans() }}</th>
+            <th>{{'Place'|trans() }}</th>
+            <th>{{'Temperature'|trans() }}</th>
+            <th>{{'Data from to'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in weather %}
+            <tr>
+                <td>{{ item.id|slice(0, 10) }}..</td>
+                <td>{{ item.took.format('Y-m-d H:i:s') }}</td>
+                <td>{{ item.weather.city.name }}</td>
+                <td>{{ item.weather.list|first.main.temp }} C&#176;</td>
+                <td>
+                    {{ item.weather.list|first.dt|date('Y-m-d H:i:s') }} <br>
+                    {{ item.weather.list|last.dt|date('Y-m-d H:i:s') }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

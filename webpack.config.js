@@ -72,3 +72,9 @@ Encore
 ;
 
 module.exports = Encore.getWebpackConfig();
+
+
+// module.exports = {
+//     entry: {
+//     }
+// };

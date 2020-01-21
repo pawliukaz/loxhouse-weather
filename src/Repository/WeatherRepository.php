@@ -16,6 +16,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class WeatherRepository extends ServiceEntityRepository
 {
+    private const CACHE_LIFETIME = 120;
+
     /**
      * WeatherRepository constructor.
      * @param ManagerRegistry $registry
@@ -23,5 +25,18 @@ class WeatherRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Weather::class);
+    }
+
+    /**
+     * @param int $limit
+     * @return Weather[]
+     */
+    public function findLatest(int $limit = 10)
+    {
+        $queryBuilder = $this->createQueryBuilder('w');
+        $queryBuilder->orderBy($queryBuilder->expr()->desc('w.took'))
+            ->setMaxResults($limit)
+            ->setLifetime(self::CACHE_LIFETIME);
+        return $queryBuilder->getQuery()->getResult();
     }
 }

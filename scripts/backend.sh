@@ -36,7 +36,7 @@ else
     
     # Fix for known docker issue, when with "-it" parameter, command exits with status 129
     EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 129 ]; then
+  if [ $EXIT_CODE -eq 129 ]; then
 		exit 0
 	else
 		exit $EXIT_CODE

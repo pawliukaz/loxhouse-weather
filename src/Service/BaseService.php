@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -48,7 +49,7 @@ abstract class BaseService
 
     /**
      * @param null|string $entryClass
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return ObjectRepository
      */
     protected function getRepository($entryClass = null)
     {

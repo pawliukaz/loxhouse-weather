@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Weather;
+use App\Repository\WeatherRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
@@ -18,6 +19,9 @@ class WeatherService extends BaseService
      * @var ClientInterface
      */
     protected $client;
+
+    /** @var WeatherRepository */
+    protected $repository;
 
     /**
      * WeatherService constructor.
@@ -57,7 +61,17 @@ class WeatherService extends BaseService
         $weather->setWeather($value);
         $this->entityManager->persist($weather);
         $this->entityManager->flush();
+        $this->logInfo('Weather data is crawled to database.', ['date' => $weather->getWeather()]);
     }
+
+    /**
+     * @return Weather[]
+     */
+    public function getWeatherData()
+    {
+        return $this->repository->findLatest();
+    }
+
     /**
      * @return string
      */
