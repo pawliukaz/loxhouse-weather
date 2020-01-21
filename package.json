@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "datatables.net-dt": "^1.10.20",
+    "jquery": "^3.4.1"
+  },
+  "name": "code",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "git@github.com:pawliukaz/loxhouse-weather.git",
+  "author": "Paulius Stasiulionis",
+  "license": "MIT",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.28.2",
+    "bootstrap": "^4.4.1",
+    "node-sass": "^4.13.1",
+    "popper.js": "^1.16.0",
+    "sass-loader": "^7.0.1",
+    "webpack-notifier": "^1.6.0"
+  }
+}
