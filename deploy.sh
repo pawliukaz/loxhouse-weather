@@ -8,7 +8,7 @@ cd /var/www/releases/release && chmod 777 var/
 cd /var/www/releases/release && composer install
 cd /var/www/releases/release && yarn && yarn encore production
 cd /var/www/releases/release && yarn encore production
-$dateValue = $(date +%Y%m%d%H%M%S)
+dateValue = `$(date +%Y%m%d%H%M%S)`
 cd /var/www/releases && mkdir $dateValue
 cd /var/www/releases && mv releases $dateValue
 ln -l /var/www/releases/$dateValue /var/www/current
