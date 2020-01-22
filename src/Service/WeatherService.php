@@ -61,7 +61,8 @@ class WeatherService extends BaseService
         $weather->setWeather($value);
         $this->entityManager->persist($weather);
         $this->entityManager->flush();
-        $this->logInfo('Weather data is crawled to database.', ['date' => $weather->getWeather()]);
+        $this->logDebug('Weather data is crawled to database.', ['date' => $weather->getWeather()]);
+        $this->logInfo('Weather data is crawled to database.', ['date' => (new DateTime())->format('Y-m-d H:i:s')]);
     }
 
     /**

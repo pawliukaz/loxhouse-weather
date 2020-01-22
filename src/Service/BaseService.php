@@ -83,7 +83,16 @@ abstract class BaseService
      */
     public function logInfo(string $message, array $context)
     {
-        $this->logger && $this->logger->warning($message, $context);
+        $this->logger && $this->logger->info($message, $context);
+    }
+
+    /**
+     * @param string $message
+     * @param array $context
+     */
+    public function logDebug(string $message, array $context)
+    {
+        $this->logger && $this->logger->debug($message, $context);
     }
 
     /**
