@@ -10,10 +10,8 @@ cd /var/www/releases/release && yarn && yarn encore production
 cd /var/www/releases/release && rm -rf scripts
 dateValue=$(date +%Y%m%d%H%M%S)
 cd /var/www/releases && mkdir $dateValue
-sudo chown -R www-data:www-data /var/www/releases/release
-cd /var/www/releases && mkdir $dateValue
-sudo chown -R www-data:www-data /var/www/releases/$dateValue
 cd /var/www/releases && sudo mv release/.env $dateValue/.env
 cd /var/www/releases && sudo mv release/* $dateValue
+sudo chown -R www-data:www-data /var/www/releases/$dateValue
 ln -sfn /var/www/releases/$dateValue /var/www/current
 sudo rm -rf /var/www/releases/release

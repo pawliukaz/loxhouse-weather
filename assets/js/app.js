@@ -4,5 +4,7 @@ require('datatables.net');
 import 'datatables.net-dt/css/jquery.dataTables.css';
 
 $(document).ready( function () {
-    $('#weatherTable').DataTable();
+    $('#weatherTable').DataTable({
+        "ordering": false
+    });
 } );
