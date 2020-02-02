@@ -29,9 +29,9 @@ class WeatherController extends AbstractController
      */
     public function index(Request $request, LoggerInterface $logger): Response
     {
-        $logger->info('POST', [$request->request->all()]);
-        $logger->info('GET', [$request->query->all()]);
-        $logger->info('HEAD', [$request->headers->all()]);
+        $logger->error('POST', [$request->request->all()]);
+        $logger->error('GET', [$request->query->all()]);
+        $logger->error('HEAD', [$request->headers->all()]);
         return $this->render('weather/index.html.twig', [
             'weather' => $this->weatherService->getWeatherData()
         ]);
