@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Service\WeatherService;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,8 +27,10 @@ class WeatherController extends AbstractController
     /**
      * @Route("/", name="weather")
      */
-    public function index(): Response
+    public function index(Request $request, LoggerInterface $logger): Response
     {
+        $logger->info('POST', [$request->request->all()]);
+        $logger->info('GET', [$request->query->all()]);
         return $this->render('weather/index.html.twig', [
             'weather' => $this->weatherService->getWeatherData()
         ]);
