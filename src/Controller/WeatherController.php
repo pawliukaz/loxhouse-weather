@@ -31,6 +31,7 @@ class WeatherController extends AbstractController
     {
         $logger->info('POST', [$request->request->all()]);
         $logger->info('GET', [$request->query->all()]);
+        $logger->info('HEAD', [$request->headers->all()]);
         return $this->render('weather/index.html.twig', [
             'weather' => $this->weatherService->getWeatherData()
         ]);
