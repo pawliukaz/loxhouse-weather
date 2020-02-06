@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "api-platform/api-pack": "^1.2",
         "eightpoints/guzzle-bundle": "^7.4",
         "sensio/framework-extra-bundle": "^5.2",
         "snc/redis-bundle": "^2.1",

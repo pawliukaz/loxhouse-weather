@@ -28,18 +28,17 @@ class WeatherService extends BaseService
      * @param EntityManagerInterface $entityManager
      * @param string $weatherBaseUrl
      * @param null|EventDispatcherInterface $dispatcher
-     * @param null|LoggerInterface $logger
+     * @param LoggerInterface|null $weatherLogger
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         string $weatherBaseUrl,
-        ?EventDispatcherInterface $dispatcher,
-        ?LoggerInterface $logger = null
+        LoggerInterface $weatherLogger,
+        ?EventDispatcherInterface $dispatcher
     ) {
-        parent::__construct($entityManager, $dispatcher, $logger);
+        parent::__construct($entityManager, $dispatcher, $weatherLogger);
         $this->client = new Client(['base_uri' => $weatherBaseUrl]);
     }
-
 
     /**
      * @throws GuzzleException
@@ -63,7 +62,7 @@ class WeatherService extends BaseService
         $this->entityManager->flush();
         $this->logDebug(
             'Weather data is crawled to database.',
-            ['date' => $weather->getWeather()]
+            ['data' => $weather->getWeather()]
         );
         $this->logInfo(
             'Weather data is crawled to database.',
