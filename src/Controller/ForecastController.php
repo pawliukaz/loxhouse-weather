@@ -34,12 +34,13 @@ class ForecastController extends Controller
      * @param int $format
      * @return Response
      */
-    public function forecastAction(Request $request, int $format = 0)
+    public function forecastAction(Request $request)
     {
+        var_dump((int)$request->get('format'));
         $this->logger->info('GET', $request->query->all());
         $this->logger->info('POST', $request->request->all());
         $this->logger->info('HEADER', $request->headers->all());
-        if ($format === 0) {
+        if (0 === (int)$request->get('format')) {
             $response = new Response('', 200,['Content-Type' => 'text/xml']);
             return $this->render('weather/forecast.xml.twig', [], $response);
         }
