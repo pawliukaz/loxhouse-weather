@@ -73,9 +73,20 @@ class WeatherService extends BaseService
     /**
      * @return Weather[]
      */
-    public function getWeatherData()
+    public function getWeatherData(): array
     {
         return $this->repository->findLatest();
+    }
+
+    public function getForecastData(): array
+    {
+        $data = $this->repository->findLatest();
+        $data = current($data);
+        $wheather = $data->getWeather();
+        foreach ($wheather as $item) {
+            var_dump($item);
+        }
+        return [];
     }
 
     /**

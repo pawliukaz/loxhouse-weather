@@ -16,7 +16,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class WeatherRepository extends ServiceEntityRepository
 {
-    private const CACHE_LIFETIME = 120;
+    private const CACHE_LIFETIME = 30;
 
     /**
      * WeatherRepository constructor.

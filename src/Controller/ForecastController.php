@@ -36,7 +36,6 @@ class ForecastController extends Controller
      */
     public function forecastAction(Request $request)
     {
-        var_dump((int)$request->get('format'));
         $this->logger->info('GET', $request->query->all());
         $this->logger->info('POST', $request->request->all());
         $this->logger->info('HEADER', $request->headers->all());
