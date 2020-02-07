@@ -29,7 +29,7 @@ class ForecastController extends Controller
 
 
     /**
-     * @Route("/forecast")
+     * @Route("/forecast/")
      * @param Request $request
      * @return Response
      */
