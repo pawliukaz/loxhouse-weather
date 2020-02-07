@@ -27,11 +27,9 @@ class ForecastController extends Controller
         $this->logger = $weatherLogger;
     }
 
-
     /**
      * @Route("/forecast/")
      * @param Request $request
-     * @param int $format
      * @return Response
      */
     public function forecastAction(Request $request)
