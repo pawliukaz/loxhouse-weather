@@ -3,22 +3,15 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use DateTime;
+use Exception;
+
 class ForecastModel implements ModelInterface
 {
     /**
-     * @var string
+     * @var float
      */
-    private $localDate;
-
-    /**
-     * @var string
-     */
-    private $weekday;
-
-    /**
-     * @var string
-     */
-    private $localTime;
+    private $temperature;
 
     /**
      * @var float
@@ -68,6 +61,11 @@ class ForecastModel implements ModelInterface
     /**
      * @var float
      */
+    private $snowFraction;
+
+    /**
+     * @var int
+     */
     private $seaLevelPressure;
 
     /**
@@ -91,57 +89,53 @@ class ForecastModel implements ModelInterface
     private $radiation;
 
     /**
+     * @var int;
+     */
+    private $timestamp;
+
+    /**
      * @return string
+     * @throws Exception
      */
     public function getLocalDate(): string
     {
-        return $this->localDate;
-    }
+        $datetime = new DateTime();
 
-    /**
-     * @param string $localDate
-     * @return ForecastModel
-     */
-    public function setLocalDate(string $localDate): self
-    {
-        $this->localDate = $localDate;
-        return $this;
+        if ($this->timestamp) {
+            $datetime->setTimestamp($this->timestamp);
+
+        }
+        return $datetime->format('d.m.Y');
     }
 
     /**
      * @return string
+     * @throws Exception
      */
     public function getWeekday(): string
     {
-        return $this->weekday;
-    }
+        $datetime = new DateTime();
 
-    /**
-     * @param string $weekday
-     * @return ForecastModel
-     */
-    public function setWeekday(string $weekday): self
-    {
-        $this->weekday = $weekday;
-        return $this;
+        if ($this->timestamp) {
+            $datetime->setTimestamp($this->timestamp);
+
+        }
+        return $datetime->format('D');
     }
 
     /**
      * @return string
+     * @throws Exception
      */
     public function getLocalTime(): string
     {
-        return $this->localTime;
-    }
+        $datetime = new DateTime();
 
-    /**
-     * @param string $localTime
-     * @return ForecastModel
-     */
-    public function setLocalTime(string $localTime): self
-    {
-        $this->localTime = $localTime;
-        return $this;
+        if ($this->timestamp) {
+            $datetime->setTimestamp($this->timestamp);
+
+        }
+        return $datetime->format('H');
     }
 
     /**
@@ -315,10 +309,10 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @param float $seaLevelPressure
+     * @param int $seaLevelPressure
      * @return ForecastModel
      */
-    public function setSeaLevelPressure(float $seaLevelPressure): self
+    public function setSeaLevelPressure(int $seaLevelPressure): self
     {
         $this->seaLevelPressure = $seaLevelPressure;
         return $this;
@@ -393,6 +387,60 @@ class ForecastModel implements ModelInterface
     public function setRadiation(int $radiation): self
     {
         $this->radiation = $radiation;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @param int $timestamp
+     * @return ForecastModel
+     */
+    public function setTimestamp(int $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTemperature(): float
+    {
+        return $this->temperature;
+    }
+
+    /**
+     * @param float $temperature
+     * @return ForecastModel
+     */
+    public function setTemperature(float $temperature): self
+    {
+        $this->temperature = $temperature;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getSnowFraction(): float
+    {
+        return $this->snowFraction;
+    }
+
+    /**
+     * @param float $snowFraction
+     * @return ForecastModel
+     */
+    public function setSnowFraction(float $snowFraction): self
+    {
+        $this->snowFraction = $snowFraction;
         return $this;
     }
 }

@@ -6,6 +6,9 @@
 parameters:
     locale: 'en'
     app.weather.base_url: 'https://api.openweathermap.org/'
+    app.sun.base_url:   'https://api.sunrise-sunset.org/'
+    app.sun.lon: 23.9036
+    app.sun.lat: 54.8985
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -16,6 +19,9 @@ services:
         bind:
             $weatherBaseUrl: '%app.weather.base_url%'
             $weatherLogger: '@monolog.logger.weather'
+            $sunBaseUrl: '%app.sun.base_url%'
+            $lon: '%app.sun.lon%'
+            $lat: '%app.sun.lat%'
 
     App\:
         resource: '../src/*'
