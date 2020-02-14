@@ -11,7 +11,7 @@ services:
 
   php.symfony:
     container_name: php.symfony
-    image: nfqakademija/docker:php-latest
+    build: ../docker/php
     volumes:
       - ../:/code # Mount your code, so nginx/phpcould see it
 
@@ -22,3 +22,9 @@ services:
       - ../.docker/mysql-data/:/var/lib/mysql # To persist data between restarts
     ports:
       - 127.0.0.1:3307:3306 # Connect to it via -h127.0.0.1 --port=3307
+
+  redis.symfony:
+    container_name: redis.symfony
+    image: redis:latest
+    volumes:
+      - ../.docker/redis/:/data
