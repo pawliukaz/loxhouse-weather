@@ -1,16 +1,17 @@
 parameters:
     redis_host: "%env(REDIS_HOST)%"
+    env(REDIS_URL): localhost
 
 snc_redis:
     clients:
         default:
             type: predis
             alias: default
-            dsn: '%redis_host%'
+            dsn: '%redis_url%'
         doctrine:
             type: predis
             alias: doctrine
-            dsn: '%redis_host%'
+            dsn: '%redis_url%'
 
 # Define your clients here. The example below connects to database 0 of the default Redis server.
 #

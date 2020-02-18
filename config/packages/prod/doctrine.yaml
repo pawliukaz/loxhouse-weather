@@ -6,9 +6,9 @@ doctrine:
             id: snc_second_level_cache
             namespace: 'dmc:'
         query_cache_driver:
-                type: service
-                id: snc_second_level_cache
-                namespace: 'dqc:'
+            type: service
+            id: snc_second_level_cache
+            namespace: 'dqc:'
         result_cache_driver:
             type: service
             id: snc_second_level_cache
