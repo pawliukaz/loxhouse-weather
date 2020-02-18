@@ -4,12 +4,13 @@ snc_redis:
             type: predis
             alias: default
             dsn: '%redis_url%'
-            logger: true
+            logging: true
         doctrine:
             type: predis
             alias: doctrine
             dsn: '%redis_url%'
-            logger: true
+            logging: true
+
 
 # Define your clients here. The example below connects to database 0 of the default Redis server.
 #
