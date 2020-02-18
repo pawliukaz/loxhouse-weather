@@ -1,7 +1,3 @@
-parameters:
-    redis_url: "%env(REDIS_HOST)%"
-    env(REDIS_URL): localhost
-
 snc_redis:
     clients:
         default:
