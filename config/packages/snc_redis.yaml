@@ -1,5 +1,5 @@
 parameters:
-    redis_host: "%env(REDIS_HOST)%"
+    redis_url: "%env(REDIS_HOST)%"
     env(REDIS_URL): localhost
 
 snc_redis:
