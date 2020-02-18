@@ -3,13 +3,16 @@ doctrine:
         auto_generate_proxy_classes: false
         metadata_cache_driver:
             type: service
-            id: doctrine.system_cache_provider
+            id: snc_second_level_cache
+            namespace: 'dmc:'
         query_cache_driver:
-            type: service
-            id: doctrine.system_cache_provider
+                type: service
+                id: snc_second_level_cache
+                namespace: 'dqc:'
         result_cache_driver:
             type: service
-            id: doctrine.result_cache_provider
+            id: snc_second_level_cache
+            namespace: 'drc:'
 
 services:
     doctrine.result_cache_provider:
