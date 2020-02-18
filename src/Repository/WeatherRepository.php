@@ -35,8 +35,9 @@ class WeatherRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('w');
         $queryBuilder->orderBy($queryBuilder->expr()->desc('w.took'))
-            ->setMaxResults($limit)
-            ->setLifetime(self::CACHE_LIFETIME);
-        return $queryBuilder->getQuery()->getResult();
+            ->setMaxResults($limit);
+        return $queryBuilder->getQuery()->setCacheable(true)->getResult();
     }
+
+
 }

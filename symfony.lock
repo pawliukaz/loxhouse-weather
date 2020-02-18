@@ -149,6 +149,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
     },
+    "predis/predis": {
+        "version": "v1.1.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -312,6 +315,9 @@
         "version": "v4.1.8"
     },
     "symfony/property-info": {
+        "version": "v4.1.12"
+    },
+    "symfony/proxy-manager-bridge": {
         "version": "v4.1.12"
     },
     "symfony/routing": {

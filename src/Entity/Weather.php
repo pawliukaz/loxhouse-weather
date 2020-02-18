@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package App\Entity
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="App\Repository\WeatherRepository")
+ * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class Weather
 {

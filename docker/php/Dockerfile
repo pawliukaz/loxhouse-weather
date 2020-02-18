@@ -17,6 +17,9 @@ RUN apt-get update \
  && docker-php-ext-install -j$(nproc) zip mysqli pdo_mysql intl calendar exif gd gettext pcntl sockets opcache \
  && rm -rf /var/lib/apt/lists/*
 
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
 # xDebug helpers (do not use this in real production)
 ADD enable_xdebug.sh /enable_xdebug.sh
 ADD disable_xdebug.sh /disable_xdebug.sh

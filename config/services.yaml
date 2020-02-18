@@ -30,3 +30,8 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+
+    snc_second_level_cache:
+        class: '%snc_redis.doctrine_cache_predis.class%'
+        arguments: [ '@snc_redis.doctrine' ]
