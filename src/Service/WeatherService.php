@@ -90,6 +90,7 @@ class WeatherService extends BaseService
         $weather = $data->getWeather();
         $count = 0;
         foreach ($weather['list'] as $forecast) {
+
             $model = new ForecastModel();
             $model->setTimestamp($forecast["dt"])
                 ->setTemperature($forecast["main"]['temp'])
@@ -100,6 +101,7 @@ class WeatherService extends BaseService
                 ->setMediumClouds($forecast['clouds']['all'])
                 ->setLowClouds($forecast['clouds']['all'])
                 ->setWindSpeed($forecast['wind']['speed'])
+                ->setWindDirection($forecast['wind']['deg'])
                 ->setWindGust(0) // we do not have it
                 ->setPrecipitation(0) // we do not have it
                 ->setProbabilityOfPrecip(0) // we do not have it
