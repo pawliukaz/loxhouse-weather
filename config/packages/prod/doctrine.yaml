@@ -18,7 +18,6 @@ doctrine:
                 type: service
                 id: doctrine.region_cache_provider
             enabled: true
-            log_enabled: true
             region_lifetime: 1800
 
 services:
