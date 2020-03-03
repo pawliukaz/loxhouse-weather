@@ -6,6 +6,7 @@ namespace App\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Adapter\TraceableAdapter;
 use Throwable;
 
@@ -42,7 +43,7 @@ class SunService
      * @param float $lon
      * @param LoggerInterface $logger
      */
-    public function __construct(string $sunBaseUrl, float $lat, float $lon, LoggerInterface $logger, TraceableAdapter $cacheSun)
+    public function __construct(string $sunBaseUrl, float $lat, float $lon, LoggerInterface $logger, RedisAdapter $cacheSun)
     {
         $this->lon = $lon;
         $this->lat = $lat;
