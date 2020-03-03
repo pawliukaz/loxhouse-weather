@@ -1,5 +1,5 @@
 parameters:
-    'env(REDIS_URL)': ''
+    'env(REDIS_URL)': 'redis://localhost'
 
 framework:
     secret: '%env(APP_SECRET)%'
