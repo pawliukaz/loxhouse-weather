@@ -1,21 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
- * Class Weather
+ * Class MeteoWeather
  * @package App\Entity
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="App\Repository\WeatherRepository")
  * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
-class Weather
+class MeteoWeather
 {
     /**
-     * @var string
+     * @var int
      * @ORM\Id()
      * @ORM\Column(type="guid")
      * @ORM\GeneratedValue(strategy="UUID");
@@ -29,27 +31,34 @@ class Weather
     protected $took;
 
     /**
-     * @var array
+     * @var null|array
      * @ORM\Column(type="json")
      */
-    protected $weather;
+    private $weather;
 
     /**
-     * @return string
+     * @throws Exception
      */
-    public function getId(): string
+    public function __construct()
+    {
+        $this->took = new DateTime();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
-     * @return $this
+     * @param int $id
+     * @return MeteoWeather
      */
-    public function setId(string $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
-
         return $this;
     }
 
@@ -63,31 +72,29 @@ class Weather
 
     /**
      * @param DateTime $took
-     * @return $this
+     * @return MeteoWeather
      */
     public function setTook(DateTime $took): self
     {
         $this->took = $took;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getWeather(): array
+    public function getWeather(): ?array
     {
         return $this->weather;
     }
 
     /**
-     * @param array $weather
-     * @return $this
+     * @param array|null $weather
+     * @return MeteoWeather
      */
-    public function setWeather(array $weather): self
+    public function setWeather(?array $weather): self
     {
         $this->weather = $weather;
-
         return $this;
     }
 }

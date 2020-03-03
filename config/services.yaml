@@ -26,6 +26,7 @@ services:
             $sunBaseUrl: '%app.sun.base_url%'
             $lon: '%app.sun.lon%'
             $lat: '%app.sun.lat%'
+            $cacheSun: '@app.cache.sun'
 
     App\:
         resource: '../src/*'
@@ -35,7 +36,3 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-
-    snc_second_level_cache:
-        class: '%snc_redis.doctrine_cache_predis.class%'
-        arguments: [ '@snc_redis.doctrine' ]

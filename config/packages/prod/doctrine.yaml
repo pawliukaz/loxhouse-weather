@@ -3,16 +3,23 @@ doctrine:
         auto_generate_proxy_classes: false
         metadata_cache_driver:
             type: service
-            id: snc_second_level_cache
+            id: doctrine.system_cache_provider
             namespace: 'dmc:'
         query_cache_driver:
             type: service
-            id: snc_second_level_cache
+            id: doctrine.system_cache_provider
             namespace: 'dqc:'
         result_cache_driver:
             type: service
-            id: snc_second_level_cache
+            id: doctrine.result_cache_provider
             namespace: 'drc:'
+        second_level_cache:
+            region_cache_driver:
+                type: service
+                id: doctrine.region_cache_provider
+            enabled: true
+            log_enabled: true
+            region_lifetime: 1800
 
 services:
     doctrine.result_cache_provider:
@@ -25,11 +32,8 @@ services:
         public: false
         arguments:
             - '@doctrine.system_cache_pool'
-
-framework:
-    cache:
-        pools:
-            doctrine.result_cache_pool:
-                adapter: cache.app
-            doctrine.system_cache_pool:
-                adapter: cache.system
+    doctrine.region_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.region_cache_pool'
