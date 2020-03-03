@@ -10,9 +10,6 @@ parameters:
     app.sun.lon: 23.9036
     app.sun.lat: 54.8985
 
-    redis_url: "%env(REDIS_URL)%"
-    env(REDIS_URL): localhost
-
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
