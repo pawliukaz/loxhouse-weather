@@ -33,7 +33,7 @@ class SunService
     private $logger;
 
     /**
-     * @var TraceableAdapter
+     * @var RedisAdapter
      */
     private $sunCache;
 
