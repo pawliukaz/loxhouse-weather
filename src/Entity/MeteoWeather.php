@@ -11,7 +11,7 @@ use Exception;
  * Class MeteoWeather
  * @package App\Entity
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\WeatherRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\MeteoWeatherRepository")
  * @ORM\Cache(usage="NONSTRICT_READ_WRITE")
  */
 class MeteoWeather
