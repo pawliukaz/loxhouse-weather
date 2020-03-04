@@ -3,7 +3,7 @@ id;name;longitude;latitude;height (m.asl.);country;timezone;utc-timedifference;s
 local date;weekday;local time;temperature(C);feeledTemperature(C);windspeed(km/h);winddirection(degr);wind gust(km/h);low clouds(%);medium clouds(%);high clouds(%);precipitation(mm);probability of Precip(%);snowFraction;sea level pressure(hPa);relative humidity(%);CAPE;picto-code;radiation (W/m2);
 </mb_metadata><valid_until>2024-03-03</valid_until>
 <station>
-;Kaunas;{{ lon|round(2) }}°E;{{ lat|round(2) }}°N ;32;Lithuania;EET;UTC+2.0;{{ sunRise|date('H:i') }};{{ sunSet|date('H:i') }};
+;Kaunas;{{ lon|round(2) }}°E;{{ lat|round(2) }}°N;32;Lithuania;EET;UTC+2.0;{{ sunRise|date('H:i') }};{{ sunSet|date('H:i') }};
 {% for forecast in data %}
 {{ forecast.localDate }};{{ forecast.weekday }};{{ forecast.localTime }}; {{ forecast.temperature }}; {{ forecast.feeledTemperature }};{{ forecast.windSpeed|wind }};{{ forecast.windDirection }};{{ forecast.windGust }};{{ forecast.lowClouds }};{{ forecast.mediumClouds }};{{ forecast.highClouds }};{{ forecast.precipitation }};{{ forecast.probabilityOfPrecip }};{{ forecast.snowFraction }};{{ forecast.seaLevelPressure }};{{ forecast.relativeHumidity }}; {{ forecast.cape }}; {{ forecast.pictoCode }}; {{ forecast.radiation }};
 {% endfor %}
