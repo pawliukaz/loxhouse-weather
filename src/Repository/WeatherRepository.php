@@ -38,6 +38,4 @@ class WeatherRepository extends ServiceEntityRepository
             ->setMaxResults($limit);
         return $queryBuilder->getQuery()->setCacheable(true)->getResult();
     }
-
-
 }
