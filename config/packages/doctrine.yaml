@@ -27,16 +27,3 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-        second_level_cache:
-            region_cache_driver:
-                type: service
-                id: doctrine.region_cache_provider
-            enabled: true
-            region_lifetime: 1800
-
-services:
-    doctrine.region_cache_provider:
-        class: Symfony\Component\Cache\DoctrineProvider
-        public: false
-        arguments:
-            - '@doctrine.region_cache_pool'
