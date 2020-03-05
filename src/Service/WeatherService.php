@@ -2,13 +2,13 @@
 
 namespace App\Service;
 
+use App\Client\OpenWeatherClient;
 use App\Entity\Weather;
 use App\Model\ForecastModel;
 use App\Repository\WeatherRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
+use Exception;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class WeatherService extends BaseService
 {
     /**
-     * @var ClientInterface
+     * @var OpenWeatherClient
      */
     protected $client;
 
@@ -27,22 +27,23 @@ class WeatherService extends BaseService
     /**
      * WeatherService constructor.
      * @param EntityManagerInterface $entityManager
-     * @param string $weatherBaseUrl
-     * @param null|EventDispatcherInterface $dispatcher
      * @param LoggerInterface|null $weatherLogger
+     * @param null|EventDispatcherInterface $dispatcher
+     * @param OpenWeatherClient $openWeatherApi
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        string $weatherBaseUrl,
         LoggerInterface $weatherLogger,
+        OpenWeatherClient $openWeatherApi,
         ?EventDispatcherInterface $dispatcher
     ) {
         parent::__construct($entityManager, $dispatcher, $weatherLogger);
-        $this->client = new Client(['base_uri' => $weatherBaseUrl]);
+        $this->client = $openWeatherApi;
     }
 
     /**
      * @throws GuzzleException
+     * @throws Exception
      */
     public function getWeatherForecast(): void
     {

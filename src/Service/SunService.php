@@ -3,17 +3,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use GuzzleHttp\Client;
+use App\Client\SunClient;
 use GuzzleHttp\Exception\BadResponseException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\RedisAdapter;
-use Symfony\Component\Cache\Adapter\TraceableAdapter;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Throwable;
 
 class SunService
 {
     /**
-     * @var Client
+     * @var SunClient
      */
     private $client;
 
@@ -33,7 +32,7 @@ class SunService
     private $logger;
 
     /**
-     * @var RedisAdapter
+     * @var AdapterInterface
      */
     private $sunCache;
 
@@ -42,12 +41,19 @@ class SunService
      * @param float $lat
      * @param float $lon
      * @param LoggerInterface $logger
+     * @param AdapterInterface $cacheSun
      */
-    public function __construct(string $sunBaseUrl, float $lat, float $lon, LoggerInterface $logger, RedisAdapter $cacheSun)
-    {
+    public function __construct(
+        float $lat,
+        float $lon,
+        LoggerInterface $logger,
+        AdapterInterface $cacheSun,
+        SunClient $client
+    ) {
         $this->lon = $lon;
         $this->lat = $lat;
-        $this->client = new Client(['base_uri' => $sunBaseUrl]);
+
+        $this->client = $client;
         $this->logger = $logger;
         $this->sunCache = $cacheSun;
     }

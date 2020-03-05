@@ -5,8 +5,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    app.weather.base_url: 'https://api.openweathermap.org/'
-    app.sun.base_url:   'https://api.sunrise-sunset.org/'
     app.sun.lon: 23.9036
     app.sun.lat: 54.8985
 
@@ -18,18 +16,19 @@ services:
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
         bind:
-            $weatherBaseUrl: '%app.weather.base_url%'
             $weatherLogger: '@monolog.logger.weather'
-            $sunBaseUrl: '%app.sun.base_url%'
             $lon: '%app.sun.lon%'
             $lat: '%app.sun.lat%'
             $cacheSun: '@app.cache.sun'
 
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Client}'
 
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Client\OpenWeatherClient: '@eight_points_guzzle.client.open_weather_api'
+    App\Client\SunClient: '@eight_points_guzzle.client.sun_api'
 

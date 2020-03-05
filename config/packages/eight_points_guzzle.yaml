@@ -4,9 +4,10 @@
 eight_points_guzzle:
     logging: true
     clients:
-        weather_api:
+        open_weather_api:
             # Write here the host where to do requests
             base_url: "https://api.openweathermap.org"
+            class: App\Client\OpenWeatherClient
 
             # Request options: http://docs.guzzlephp.org/en/stable/request-options.html
             options:
@@ -19,7 +20,29 @@ eight_points_guzzle:
                 # each key is the name of a header, and each value is a string or array of strings representing the
                 # header field values.
                 headers:
-                    User-Agent: "EightPointsGuzzleBundle/v7"
+                    User-Agent: "Loxone"
+                    Accept: "application/json"
+
+            # Find plugins here:
+            # https://github.com/8p/EightPointsGuzzleBundle#known-and-supported-plugins
+            plugin: ~
+        sun_api:
+            # Write here the host where to do requests
+            base_url: "https://api.sunrise-sunset.org/"
+            class: App\Client\SunClient
+
+            # Request options: http://docs.guzzlephp.org/en/stable/request-options.html
+            options:
+                # timeout in seconds
+                timeout: 30
+
+                # set to false to disable throwing exceptions on an HTTP protocol errors (4xx and 5xx responses)
+                http_errors: true
+
+                # each key is the name of a header, and each value is a string or array of strings representing the
+                # header field values.
+                headers:
+                    User-Agent: "Loxone"
                     Accept: "application/json"
 
             # Find plugins here:
