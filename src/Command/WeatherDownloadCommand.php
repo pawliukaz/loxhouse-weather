@@ -29,12 +29,12 @@ class WeatherDownloadCommand extends Command
     }
 
     /**
-     *
+     * @inheritDoc
      */
     protected function configure()
     {
         $this
-            ->setDescription('Download weather open server')
+            ->setDescription('Download weather open server data')
         ;
     }
 

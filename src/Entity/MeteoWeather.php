@@ -37,6 +37,12 @@ class MeteoWeather
     private $weather;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $place;
+
+    /**
      * @throws Exception
      */
     public function __construct()
@@ -95,6 +101,24 @@ class MeteoWeather
     public function setWeather(?array $weather): self
     {
         $this->weather = $weather;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlace(): string
+    {
+        return $this->place;
+    }
+
+    /**
+     * @param string $place
+     * @return MeteoWeather
+     */
+    public function setPlace(string $place): self
+    {
+        $this->place = $place;
         return $this;
     }
 }

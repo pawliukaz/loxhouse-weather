@@ -6,11 +6,15 @@ namespace App\Service;
 use App\Client\MeteoClient;
 use App\Entity\MeteoWeather;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use GuzzleHttp\Exception\BadResponseException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MeteoService extends BaseService
 {
+
+    private const TYPE = 'long-term';
     /**
      * @var MeteoClient
      */
@@ -18,6 +22,7 @@ class MeteoService extends BaseService
 
     /**
      * @param EntityManagerInterface $entityManager
+     * @param MeteoClient $client
      * @param EventDispatcherInterface|null $dispatcher
      * @param LoggerInterface|null $logger
      */
@@ -36,10 +41,54 @@ class MeteoService extends BaseService
     }
 
     /**
-     *
+     * @param float $long
+     * @param float $lat
+     * @return string|null
      */
-    public function getMeteoData()
+    private function callMeteoData(float $long, float $lat): ?string
     {
+        try {
+            $response = $this->client->get(
+                sprintf('/v1/places/%s/forecasts/%s', $this->getPlace($long, $lat), self::TYPE)
+            );
+            return $response->getBody()->getContents();
+        } catch (BadResponseException $exception) {
+            $this->logError(
+                $exception->getMessage(),
+                [
+                    'code' => $exception->getCode(),
+                    'responseBody' => $exception->getResponse()?$exception->getResponse()->getBody():null
+                ]
+            );
+        }
+        return null;
+    }
 
+    /**
+     * @param float $long
+     * @param float $lat
+     * @throws Exception
+     */
+    public function downloadMeteoData(float $long, float $lat)
+    {
+        $meteoData = $this->callMeteoData($long, $lat);
+        if ($meteoData) {
+            $meteoData = json_decode($meteoData, true);
+            $meteoModel = new MeteoWeather();
+            $meteoModel->setPlace(MeteoPlaces::DOMEIKAVA);
+            $meteoModel->setWeather($meteoData);
+            $this->entityManager->persist($meteoModel);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * @param float $long
+     * @param float $lat
+     * @return string
+     */
+    private function getPlace(float $long, float $lat): string
+    {
+        return MeteoPlaces::DOMEIKAVA;
     }
 }

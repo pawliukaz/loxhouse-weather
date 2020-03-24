@@ -110,9 +110,10 @@ class WeatherService extends BaseService
                 ->setSnowFraction(0) //we do not have it
                 ->setCape(0)
                 ->setPictoCode(
-                    $this->getPictoCode(
-                        isset($forecast['weather'][0]['id'])?(int)$forecast['weather'][0]['id']:0
-                    )
+                    ($count+1)
+//                    $this->getPictoCode(
+//                        isset($forecast['weather'][0]['id'])?(int)$forecast['weather'][0]['id']:0
+//                    )
                 )
             ;
             $formattedData[] = $model;

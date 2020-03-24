@@ -31,4 +31,5 @@ services:
 
     App\Client\OpenWeatherClient: '@eight_points_guzzle.client.open_weather_api'
     App\Client\SunClient: '@eight_points_guzzle.client.sun_api'
+    App\Client\MeteoClient: '@eight_points_guzzle.client.meteo_api'
 
