@@ -17,6 +17,4 @@ class AppExtension extends AbstractExtension
             new TwigFilter('wind', [AppRuntime::class, 'formatWind']),
         ];
     }
-
-
 }

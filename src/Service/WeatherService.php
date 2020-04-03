@@ -110,20 +110,25 @@ class WeatherService extends BaseService
                 ->setSnowFraction(0) //we do not have it
                 ->setCape(0)
                 ->setPictoCode(
-                    ($count+1)
+                    (++$count)
 //                    $this->getPictoCode(
 //                        isset($forecast['weather'][0]['id'])?(int)$forecast['weather'][0]['id']:0
 //                    )
                 )
             ;
             $formattedData[] = $model;
+            $count++;
             $secondModel = clone $model;
             $secondModel->setTimestamp($secondModel->getTimestamp() + 3600);
+            $secondModel->setPictoCode($count);
             $formattedData[] = $secondModel;
+            $count++;
             $thirdModel = clone $secondModel;
             $thirdModel->setTimestamp($thirdModel->getTimestamp() + 3600);
+            $thirdModel->setPictoCode($count);
             $formattedData[] = $thirdModel;
             $count++;
+
         }
         return $formattedData;
     }
