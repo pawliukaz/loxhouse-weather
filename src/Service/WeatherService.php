@@ -118,11 +118,11 @@ class WeatherService extends BaseService
 
             $secondModel = clone $model;
             $secondModel->setTimestamp($secondModel->getTimestamp() + 3600);
-            $secondModel->setPictoCode(++$count);
+            //$secondModel->setPictoCode(++$count);
             $formattedData[] = $secondModel;
             $thirdModel = clone $secondModel;
             $thirdModel->setTimestamp($thirdModel->getTimestamp() + 3600);
-            $thirdModel->setPictoCode(++$count);
+            //$thirdModel->setPictoCode(++$count);
             $formattedData[] = $thirdModel;
 
         }
@@ -149,7 +149,7 @@ class WeatherService extends BaseService
                 return 20;
             case 804:
                 return 22;
-                
+
             case 701:
             case 711:
             case 721:
