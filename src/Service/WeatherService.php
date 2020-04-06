@@ -148,8 +148,8 @@ class WeatherService extends BaseService
             case 803:
                 return 20;
             case 804:
-                return 23;
-
+                return 22;
+                
             case 701:
             case 711:
             case 721:
@@ -160,45 +160,44 @@ class WeatherService extends BaseService
             case 762:
             case 771:
             case 781:
-                return 17;
+                return 16;
 
             case 600:	# Snow	light snow
-                return 33; #Overcast with snow (Loxone: Schneefall)
+                return 32; #Overcast with snow (Loxone: Schneefall)
             case 601:	# Snow	Snow
-                return 25; #Overcast with heavy snow (Loxone: Starker Schneefall)
+                return 24; #Overcast with heavy snow (Loxone: Starker Schneefall)
             case 602:	# Snow	Heavy snow
-                return 27;	#Storm with heavy snow (Loxone: Starker Schneeschauer)
+                return 26;	#Storm with heavy snow (Loxone: Starker Schneeschauer)
             case 611:	# Snow	Sleet
             case 612:	# Snow	Light shower sleet
             case 613:	# Snow	Shower sleet
             case 615:	# Snow	Light rain and snow
-                return 36; #Overcast with snow (Loxone: Schneefall)
             case 616:	# Snow	Rain and snow
                 return 35; # Overcast with mixture of snow and rain (Loxone: Schneeregen)
             case 620:	# Snow	Light shower snow
             case 621:	# Snow	Shower snow
-                return 33;	#Mixed with snow showers (Loxone: Leichter Schneeschauer)
+                return 32;	#Mixed with snow showers (Loxone: Leichter Schneeschauer)
             case 622:	# Snow	Heavy shower snow
-                return 30;	#Storm with heavy snow (Loxone: Starker Schneeschauer)
+                return 29;	#Storm with heavy snow (Loxone: Starker Schneeschauer)
 
 
             //rain;
             case 500: # light rain
-                return 34;
+                return 33;
             case 501: #	moderate rain
-                return 24;
+                return 23;
             case 502: #	heavy intensity rain
             case 503: #	very heavy rain
             case 504: #	extreme rain
-                return 26;
+                return 25;
             case 511: #	freezing rain
-                return 36; # Overcast with mixture of snow and rain (Loxone: Schneeregen)
+                return 35; # Overcast with mixture of snow and rain (Loxone: Schneeregen)
             case 520: #	light intensity shower rain
-                return 32;
+                return 33;
             case 521: #	shower rain
             case 522: # heavy intensity shower rain
             case 531: # ragged shower
-                return 34;
+                return 31;
 
             case 300: # Drizzle	light intensity drizzle
             case 301: # Drizzle	drizzle
@@ -209,7 +208,7 @@ class WeatherService extends BaseService
             case 313: # Drizzle	shower rain and drizzle
             case 314: # Drizzle	heavy shower rain and drizzle
             case 321: # Drizzle	shower drizzle
-                return 28;
+                return 31;
 
 
             //Thunder strom
@@ -218,13 +217,13 @@ class WeatherService extends BaseService
             case 202:	#Thunderstorm	thunderstorm with heavy rain
             case 210:	#Thunderstorm	light thunderstorm
             case 211:	#Thunderstorm	thunderstorm
-                return 29; # Mixed with cirrus and some thunderstorm clouds possible (Loxone: Wolkig)
+                return 28; # Mixed with cirrus and some thunderstorm clouds possible (Loxone: Wolkig)
             case 212:	#Thunderstorm	heavy thunderstorm
             case 221:	#Thunderstorm	ragged thunderstorm
             case 230:	#Thunderstorm	thunderstorm with light drizzle
             case 231:	#Thunderstorm	thunderstorm with drizzle
             case 232:	#Thunderstorm	thunderstorm with heavy drizzle
-                return 28; # Light rain, thunderstorms likely (Loxone: Gewitter)
+                return 30; # Light rain, thunderstorms likely (Loxone: Gewitter)
 
             #  1	Loxone: Clear sky
             #  2	Loxone: Clear
@@ -240,28 +239,27 @@ class WeatherService extends BaseService
             # 12	Loxone: Partly Cloudy
             # 13	Loxone: Clear sky
             # 14	Loxone: Clear
-            # 15	Loxone: Sleet
-            # 16	Loxone: Clear
+            # 15	Loxone: Clear
+            # 16	Loxone: Fog
             # 17	Loxone: Fog
             # 18	Loxone: Fog
-            # 19	Loxone: Fog
+            # 19	Loxone: Heavy Cloud Cover
             # 20	Loxone: Heavy Cloud Cover
             # 21	Loxone: Heavy Cloud Cover
-            # 22	Loxone: Heavy Cloud Cover
-            # 23	Loxone: Cloudy
-            # 24	Loxone: Rain
-            # 25	Loxone: Snow
-            # 26	Loxone: Heavy rain
-            # 27	Loxone: Heavy snow
-            # 28	Loxone: Strong thunderstorms
-            # 29	Loxone: Thunderstorms
-            # 30	Loxone: Heavy snow showers
-            # 31	Loxone: Strong thunderstorms
-            # 32	Loxone: Light showers
-            # 33	Loxone: Light snow showers
-            # 34	Loxone: Light rain
-            # 35	Loxone: Light snow showers
-            # 36    Loxone: sleet
+            # 22	Loxone: Cloudy
+            # 23	Loxone: Rain
+            # 24	Loxone: Snow
+            # 25	Loxone: Heavy rain
+            # 26	Loxone: Heavy snow
+            # 27	Loxone: Strong thunderstorms
+            # 28	Loxone: Thunderstorms
+            # 29	Loxone: Heavy snow showers
+            # 30	Loxone: Strong thunderstorms
+            # 31	Loxone: Light showers
+            # 32	Loxone: Light snow showers
+            # 33	Loxone: Light rain
+            # 34	Loxone: Light snow showers
+            # 35    Loxone: sleet
         }
         return 1;
     }
