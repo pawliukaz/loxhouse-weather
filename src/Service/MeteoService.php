@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Client\MeteoClient;
 use App\Entity\MeteoWeather;
+use App\Util\MeteoPlace;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Exception\BadResponseException;
@@ -49,7 +50,7 @@ class MeteoService extends BaseService
     {
         try {
             $response = $this->client->get(
-                sprintf('/v1/places/%s/forecasts/%s', $this->getPlace($long, $lat), self::TYPE)
+                sprintf('/v1/places/%s/forecasts/%s', MeteoPlace::getPlace($long, $lat), self::TYPE)
             );
             return $response->getBody()->getContents();
         } catch (BadResponseException $exception) {
@@ -75,20 +76,20 @@ class MeteoService extends BaseService
         if ($meteoData) {
             $meteoData = json_decode($meteoData, true);
             $meteoModel = new MeteoWeather();
-            $meteoModel->setPlace(MeteoPlaces::DOMEIKAVA);
+            $meteoModel->setPlace(MeteoPlace::getPlace($long, $lat));
             $meteoModel->setWeather($meteoData);
             $this->entityManager->persist($meteoModel);
-            $this->entityManager->flush();
-        }
-    }
 
-    /**
-     * @param float $long
-     * @param float $lat
-     * @return string
-     */
-    private function getPlace(float $long, float $lat): string
-    {
-        return MeteoPlaces::DOMEIKAVA;
+        }
+        // kaunas meteo data
+        $meteoData = $this->callMeteoData(0, 0);
+        if ($meteoData) {
+            $meteoData = json_decode($meteoData, true);
+            $meteoModel = new MeteoWeather();
+            $meteoModel->setPlace(MeteoPlace::getPlace(0, 0));
+            $meteoModel->setWeather($meteoData);
+            $this->entityManager->persist($meteoModel);
+        }
+        $this->entityManager->flush();
     }
 }

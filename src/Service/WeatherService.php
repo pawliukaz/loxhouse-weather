@@ -5,12 +5,14 @@ namespace App\Service;
 use App\Client\OpenWeatherClient;
 use App\Entity\Weather;
 use App\Model\ForecastModel;
+use App\Repository\MeteoWeatherRepository;
 use App\Repository\WeatherRepository;
+use App\Util\MeteoPlace;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -24,21 +26,27 @@ class WeatherService extends BaseService
     /** @var WeatherRepository */
     protected $repository;
 
+    /** @var MeteoWeatherRepository */
+    protected $meteoRepository;
+
     /**
      * WeatherService constructor.
      * @param EntityManagerInterface $entityManager
      * @param LoggerInterface|null $weatherLogger
-     * @param null|EventDispatcherInterface $dispatcher
      * @param OpenWeatherClient $openWeatherApi
+     * @param MeteoWeatherRepository $meteoRepository
+     * @param null|EventDispatcherInterface $dispatcher
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         LoggerInterface $weatherLogger,
         OpenWeatherClient $openWeatherApi,
+        MeteoWeatherRepository $meteoRepository,
         ?EventDispatcherInterface $dispatcher
     ) {
         parent::__construct($entityManager, $dispatcher, $weatherLogger);
         $this->client = $openWeatherApi;
+        $this->meteoRepository = $meteoRepository;
     }
 
     /**
@@ -80,53 +88,107 @@ class WeatherService extends BaseService
     }
 
     /**
-     * @return array|ForecastModel[]
+     * @param float|null $long
+     * @param float|null $lat
+     * @return ArrayCollection|ForecastModel[]
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getForecastData(): array
+    public function getForecastData(?float $long = null, ?float $lat = null): ArrayCollection
     {
-        $formattedData = [];
+        /** @var ForecastModel[]|ArrayCollection $formattedData */
+        $formattedData = new ArrayCollection();
+        $meteoData = $this->meteoRepository->findLatest(MeteoPlace::getPlace((float)$long, (float)$lat));
         $data = $this->repository->findLatest();
         $data = current($data);
         $weather = $data->getWeather();
+        if (null !== $meteoData) {
+            $meteoWeather = $meteoData->getWeather();
+            foreach ($meteoWeather['forecastTimestamps'] as $meteoForecast) {
+                $model = new ForecastModel();
+                $model->setTimestamp(
+                    DateTime::createFromFormat('Y-m-d H:i:s', $meteoForecast['forecastTimeUtc'])->getTimestamp()
+                )
+                    ->setTemperature($meteoForecast['airTemperature'])
+                    ->setWindDirection($meteoForecast['windDirection'])
+                    ->setWindGust($meteoForecast['windGust']*3.6)
+                    ->setWindSpeed($meteoForecast['windSpeed']*3.6)
+                    ->setPrecipitation($meteoForecast['totalPrecipitation'])
+                    ->setSeaLevelPressure($meteoForecast['seaLevelPressure'])
+                    ->setLowClouds($meteoForecast['cloudCover'])
+                    ->setMediumClouds($meteoForecast['cloudCover'])
+                    ->setHighClouds($meteoForecast['cloudCover'])
+                    ->setCape(0)
+                    ->setPictoCode($this->getMeteoPicoCode($meteoForecast['conditionCode']))
+                ;
+                $formattedData->add($model);
+            }
+        }
+
         $count = 0;
         foreach ($weather['list'] as $forecast) {
+            $model = null;
             $count++;
-            $model = new ForecastModel();
+
+            $model = $this->findModel($formattedData, $forecast["dt"]) ?? new ForecastModel();
             $model->setTimestamp($forecast["dt"])
-                ->setTemperature($forecast["main"]['temp'])
+                ->setTemperature($model->getTemperature() ?? $forecast["main"]['temp'])
                 ->setFeeledTemperature($forecast["main"]['feels_like'])
-                ->setSeaLevelPressure($forecast["main"]['sea_level'])
-                ->setRelativeHumidity($forecast["main"]['humidity'])
-                ->setHighClouds($forecast['clouds']['all'])
-                ->setMediumClouds($forecast['clouds']['all'])
-                ->setLowClouds($forecast['clouds']['all'])
-                ->setWindSpeed($forecast['wind']['speed'])
-                ->setWindDirection($forecast['wind']['deg'])
-                ->setWindGust(0) // we do not have it
-                ->setPrecipitation(0) // we do not have it
-                ->setProbabilityOfPrecip(0) // we do not have it
-                ->setRadiation(0) // we do not have it
-                ->setSnowFraction(0) //we do not have it
-                ->setCape(0)
+                ->setSeaLevelPressure($model->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
+                ->setRelativeHumidity($model->getRelativeHumidity() ?? $forecast["main"]['humidity'])
+                ->setHighClouds($model->getHighClouds() ?? $forecast['clouds']['all'])
+                ->setMediumClouds($model->getMediumClouds() ?? $forecast['clouds']['all'])
+                ->setLowClouds( $model->getLowClouds() ?? $forecast['clouds']['all'])
+                ->setWindSpeed($model->getWindSpeed() ?? $forecast['wind']['speed'])
+                ->setWindDirection($model->getWindDirection() ?? $forecast['wind']['deg'])
                 ->setPictoCode(
-                    $this->getPictoCode(
+                    $model->getPictoCode() ?? $this->getPictoCode(
                         isset($forecast['weather'][0]['id'])?(int)$forecast['weather'][0]['id']:0
                     )
                 )
             ;
-            $formattedData[] = $model;
+            $formattedData->add($model);
+            $secondModel = $this->findModel($formattedData, $model->getTimestamp() + 3600) ??
+                (clone $model)->setTimestamp($model->getTimestamp() + 3600);
+            $secondModel->setFeeledTemperature($forecast["main"]['feels_like'])
+                ->setSeaLevelPressure($model->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
+                ->setRelativeHumidity($model->getRelativeHumidity() ?? $forecast["main"]['humidity'])
+                ->setHighClouds($model->getHighClouds() ?? $forecast['clouds']['all'])
+                ->setMediumClouds($model->getMediumClouds() ?? $forecast['clouds']['all'])
+                ->setLowClouds( $model->getLowClouds() ?? $forecast['clouds']['all'])
+                ->setWindSpeed($model->getWindSpeed() ?? $forecast['wind']['speed'])
+                ->setWindDirection($model->getWindDirection() ?? $forecast['wind']['deg'])
+            ;
+            $formattedData->add($secondModel);
 
-            $secondModel = clone $model;
-            $secondModel->setTimestamp($secondModel->getTimestamp() + 3600);
-            //$secondModel->setPictoCode(++$count);
-            $formattedData[] = $secondModel;
-            $thirdModel = clone $secondModel;
-            $thirdModel->setTimestamp($thirdModel->getTimestamp() + 3600);
-            //$thirdModel->setPictoCode(++$count);
-            $formattedData[] = $thirdModel;
+            $thirdModel = $this->findModel($formattedData, $secondModel->getTimestamp() + 3600) ??
+                (clone $secondModel)->setTimestamp($secondModel->getTimestamp() + 3600);
+            $thirdModel->setFeeledTemperature($forecast["main"]['feels_like'])
+                ->setSeaLevelPressure($model->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
+                ->setRelativeHumidity($model->getRelativeHumidity() ?? $forecast["main"]['humidity'])
+                ->setHighClouds($model->getHighClouds() ?? $forecast['clouds']['all'])
+                ->setMediumClouds($model->getMediumClouds() ?? $forecast['clouds']['all'])
+                ->setLowClouds( $model->getLowClouds() ?? $forecast['clouds']['all'])
+                ->setWindSpeed($model->getWindSpeed() ?? $forecast['wind']['speed'])
+                ->setWindDirection($model->getWindDirection() ?? $forecast['wind']['deg'])
+            ;
+            $formattedData->add($thirdModel);
 
         }
         return $formattedData;
+    }
+
+    /**
+     * @param ArrayCollection $formattedData
+     * @return ForecastModel|null
+     */
+    private function findModel(ArrayCollection $formattedData, int $timestamp): ?ForecastModel
+    {
+        foreach ($formattedData as $formattedItem) {
+            if ($formattedItem->getTimestamp() === $timestamp) {
+                return $formattedItem;
+            }
+        }
+        return null;
     }
 
     /**
@@ -149,7 +211,6 @@ class WeatherService extends BaseService
                 return 20;
             case 804:
                 return 22;
-
             case 701:
             case 711:
             case 721:
@@ -263,6 +324,46 @@ class WeatherService extends BaseService
         }
         return 1;
     }
+
+    /**
+     * @param string $id
+     * @return int
+     */
+    private function getMeteoPicoCode(string $id): int
+    {
+        switch ($id) {
+            case "clear": #giedra;
+                return 1;
+            case "isolated-clouds": #mažai debesuota;
+                return 8;
+            case "scattered-clouds": #debesuota su pragiedruliais;
+                return 20;
+            case "overcast": #debesuota;
+                return 22;
+            case "light-rain": #nedidelis lietus;
+                return 33;
+            case "moderate-rain": #lietus;
+                return 23;
+            case "heavy-rain": #smarkus lietus;
+                return 25;
+            case "sleet": #šlapdriba;
+                return 35;
+            case "light-snow": #nedidelis sniegas;
+                return 32;
+            case "moderate-snow": #sniegas;
+                return 24;
+            case "heavy-snow": #smarkus sniegas;
+                return 29;
+            case "fog": #rūkas;
+                return 17;
+            case "na": #oro sąlygos nenustatytos .
+                return 17;
+            default:
+                return 1;
+        }
+    }
+
+
 
     /**
      * @return string

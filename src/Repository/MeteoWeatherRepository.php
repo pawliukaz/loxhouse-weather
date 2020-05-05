@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\MeteoWeather;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Class WeatherRepository
@@ -24,5 +25,21 @@ class MeteoWeatherRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MeteoWeather::class);
+    }
+
+    /**
+     * @param string $place
+     * @return MeteoWeather|null
+     * @throws NonUniqueResultException
+     */
+    public function findLatest(string $place): ?MeteoWeather
+    {
+        $queryBuilder = $this->createQueryBuilder('mw');
+        $queryBuilder->where($queryBuilder->expr()->eq('mw.place', ':place'))
+            ->setParameter('place', $place)
+            ->orderBy($queryBuilder->expr()->desc('mw.took'));
+        $query = $queryBuilder->getQuery();
+        $query->setMaxResults(1);
+        return $query->getOneOrNullResult();
     }
 }

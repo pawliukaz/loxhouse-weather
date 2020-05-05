@@ -9,84 +9,84 @@ use Exception;
 class ForecastModel implements ModelInterface
 {
     /**
-     * @var float
+     * @var float|null
      */
     private $temperature;
 
     /**
-     * @var float
+     * @var float|null
      */
     private $feeledTemperature;
 
     /**
-     * @var float
+     * @var float|null
      */
     private $windSpeed;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $windDirection;
 
     /**
-     * @var int
+     * @var float
      */
-    private $windGust;
+    private $windGust = 0;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $lowClouds;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $mediumClouds;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $highClouds;
 
     /**
      * @var float
      */
-    private $precipitation;
+    private $precipitation = 0;
 
     /**
      * @var int
      */
-    private $probabilityOfPrecip;
+    private $probabilityOfPrecip = 0;
 
     /**
      * @var float
      */
-    private $snowFraction;
+    private $snowFraction = 0;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $seaLevelPressure;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $relativeHumidity;
 
     /**
      * @var int
      */
-    private $cape;
+    private $cape = 0;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $pictoCode;
 
     /**
      * @var int
      */
-    private $radiation;
+    private $radiation = 0;
 
     /**
      * @var int;
@@ -139,9 +139,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getFeeledTemperature(): float
+    public function getFeeledTemperature(): ?float
     {
         return $this->feeledTemperature;
     }
@@ -157,9 +157,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getWindSpeed(): float
+    public function getWindSpeed(): ?float
     {
         return $this->windSpeed;
     }
@@ -175,9 +175,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getWindDirection(): int
+    public function getWindDirection(): ?int
     {
         return $this->windDirection;
     }
@@ -193,27 +193,27 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int
+     * @return float|null
      */
-    public function getWindGust(): int
+    public function getWindGust(): ?float
     {
         return $this->windGust;
     }
 
     /**
-     * @param int $windGust
+     * @param float $windGust
      * @return ForecastModel
      */
-    public function setWindGust(int $windGust): self
+    public function setWindGust(float $windGust): self
     {
         $this->windGust = $windGust;
         return $this;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getLowClouds(): int
+    public function getLowClouds(): ?int
     {
         return $this->lowClouds;
     }
@@ -229,9 +229,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMediumClouds(): int
+    public function getMediumClouds(): ?int
     {
         return $this->mediumClouds;
     }
@@ -247,9 +247,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getHighClouds(): int
+    public function getHighClouds(): ?int
     {
         return $this->highClouds;
     }
@@ -301,9 +301,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getSeaLevelPressure(): float
+    public function getSeaLevelPressure(): ?float
     {
         return $this->seaLevelPressure;
     }
@@ -319,9 +319,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getRelativeHumidity(): int
+    public function getRelativeHumidity(): ?int
     {
         return $this->relativeHumidity;
     }
@@ -355,9 +355,9 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPictoCode(): int
+    public function getPictoCode(): ?int
     {
         return $this->pictoCode;
     }
@@ -411,7 +411,7 @@ class ForecastModel implements ModelInterface
     /**
      * @return float
      */
-    public function getTemperature(): float
+    public function getTemperature(): ?float
     {
         return $this->temperature;
     }
@@ -429,7 +429,7 @@ class ForecastModel implements ModelInterface
     /**
      * @return float
      */
-    public function getSnowFraction(): float
+    public function getSnowFraction(): ?float
     {
         return $this->snowFraction;
     }

@@ -35,7 +35,7 @@ class MeteoDownloadCommand extends Command
     {
         $inputOutput = new SymfonyStyle($input, $output);
         $startTime =  DateTime::createFromFormat('U.u', (string)microtime(TRUE));
-        $this->service->downloadMeteoData(0, 0);
+        $this->service->downloadMeteoData( 23.8950, 54.9580);
         $endTime = DateTime::createFromFormat('U.u', (string)microtime(TRUE));
         $time = (int)$endTime->getTimestamp() - (int)$startTime->getTimestamp();
         $inputOutput->table(

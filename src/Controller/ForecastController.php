@@ -8,6 +8,7 @@ use App\Service\WeatherService;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,6 +69,7 @@ class ForecastController extends Controller
      * @param Request $request
      * @return Response
      * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function forecastAction(Request $request)
     {
