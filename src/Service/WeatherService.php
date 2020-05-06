@@ -106,7 +106,10 @@ class WeatherService extends BaseService
             foreach ($meteoWeather['forecastTimestamps'] as $meteoForecast) {
                 $model = new ForecastModel();
                 $model->setTimestamp(
-                    DateTime::createFromFormat('Y-m-d H:i:s', $meteoForecast['forecastTimeUtc'])->getTimestamp()
+                    DateTime::createFromFormat(
+                        'Y-m-d H:i:s', $meteoForecast['forecastTimeUtc'],
+                        new \DateTimeZone('UTC')
+                    )->setTimezone(new \DateTimeZone('Europe/Vilnius'))->getTimestamp()
                 )
                     ->setTemperature($meteoForecast['airTemperature'])
                     ->setWindDirection($meteoForecast['windDirection'])
@@ -180,6 +183,7 @@ class WeatherService extends BaseService
 
     /**
      * @param ArrayCollection $formattedData
+     * @param int $timestamp
      * @return ForecastModel|null
      */
     private function findModel(ArrayCollection $formattedData, int $timestamp): ?ForecastModel
