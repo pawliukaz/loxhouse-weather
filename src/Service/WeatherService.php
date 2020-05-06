@@ -151,26 +151,26 @@ class WeatherService extends BaseService
             $secondModel = $this->findModel($formattedData, $model->getTimestamp() + 3600) ??
                 (clone $model)->setTimestamp($model->getTimestamp() + 3600);
             $secondModel->setFeeledTemperature($forecast["main"]['feels_like'])
-                ->setSeaLevelPressure($model->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
-                ->setRelativeHumidity($model->getRelativeHumidity() ?? $forecast["main"]['humidity'])
-                ->setHighClouds($model->getHighClouds() ?? $forecast['clouds']['all'])
-                ->setMediumClouds($model->getMediumClouds() ?? $forecast['clouds']['all'])
-                ->setLowClouds( $model->getLowClouds() ?? $forecast['clouds']['all'])
-                ->setWindSpeed($model->getWindSpeed() ?? $forecast['wind']['speed'])
-                ->setWindDirection($model->getWindDirection() ?? $forecast['wind']['deg'])
+                ->setSeaLevelPressure($secondModel->getSeaLevelPressure() ?? $forecast["main"]['sea_level'])
+                ->setRelativeHumidity($secondModel->getRelativeHumidity() ?? $forecast["main"]['humidity'])
+                ->setHighClouds($secondModel->getHighClouds() ?? $forecast['clouds']['all'])
+                ->setMediumClouds($secondModel->getMediumClouds() ?? $forecast['clouds']['all'])
+                ->setLowClouds( $secondModel->getLowClouds() ?? $forecast['clouds']['all'])
+                ->setWindSpeed($secondModel->getWindSpeed() ?? $forecast['wind']['speed'])
+                ->setWindDirection($secondModel->getWindDirection() ?? $forecast['wind']['deg'])
             ;
             $formattedData->add($secondModel);
 
             $thirdModel = $this->findModel($formattedData, $secondModel->getTimestamp() + 3600) ??
                 (clone $secondModel)->setTimestamp($secondModel->getTimestamp() + 3600);
             $thirdModel->setFeeledTemperature($forecast["main"]['feels_like'])
-                ->setSeaLevelPressure($model->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
-                ->setRelativeHumidity($model->getRelativeHumidity() ?? $forecast["main"]['humidity'])
-                ->setHighClouds($model->getHighClouds() ?? $forecast['clouds']['all'])
-                ->setMediumClouds($model->getMediumClouds() ?? $forecast['clouds']['all'])
-                ->setLowClouds( $model->getLowClouds() ?? $forecast['clouds']['all'])
-                ->setWindSpeed($model->getWindSpeed() ?? $forecast['wind']['speed'])
-                ->setWindDirection($model->getWindDirection() ?? $forecast['wind']['deg'])
+                ->setSeaLevelPressure($thirdModel->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
+                ->setRelativeHumidity($thirdModel->getRelativeHumidity() ?? $forecast["main"]['humidity'])
+                ->setHighClouds($thirdModel->getHighClouds() ?? $forecast['clouds']['all'])
+                ->setMediumClouds($thirdModel->getMediumClouds() ?? $forecast['clouds']['all'])
+                ->setLowClouds( $thirdModel->getLowClouds() ?? $forecast['clouds']['all'])
+                ->setWindSpeed($thirdModel->getWindSpeed() ?? $forecast['wind']['speed'])
+                ->setWindDirection($thirdModel->getWindDirection() ?? $forecast['wind']['deg'])
             ;
             $formattedData->add($thirdModel);
 
