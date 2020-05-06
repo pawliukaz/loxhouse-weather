@@ -69,7 +69,7 @@ class ForecastModel implements ModelInterface
     private $seaLevelPressure;
 
     /**
-     * @var int|null
+     * @var float|null
      */
     private $relativeHumidity;
 
@@ -319,18 +319,18 @@ class ForecastModel implements ModelInterface
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getRelativeHumidity(): ?int
+    public function getRelativeHumidity(): ?float
     {
         return $this->relativeHumidity;
     }
 
     /**
-     * @param int $relativeHumidity
+     * @param float $relativeHumidity
      * @return ForecastModel
      */
-    public function setRelativeHumidity(int $relativeHumidity): self
+    public function setRelativeHumidity(float $relativeHumidity): self
     {
         $this->relativeHumidity = $relativeHumidity;
         return $this;

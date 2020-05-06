@@ -117,6 +117,7 @@ class WeatherService extends BaseService
                     ->setLowClouds($meteoForecast['cloudCover'])
                     ->setMediumClouds($meteoForecast['cloudCover'])
                     ->setHighClouds($meteoForecast['cloudCover'])
+                    ->setRelativeHumidity($meteoForecast['relativeHumidity'])
                     ->setCape(0)
                     ->setPictoCode($this->getMeteoPicoCode($meteoForecast['conditionCode']))
                 ;
