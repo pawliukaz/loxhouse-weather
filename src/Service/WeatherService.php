@@ -9,6 +9,7 @@ use App\Repository\MeteoWeatherRepository;
 use App\Repository\WeatherRepository;
 use App\Util\MeteoPlace;
 use DateTime;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -103,13 +104,13 @@ class WeatherService extends BaseService
         $weather = $data->getWeather();
         if (null !== $meteoData) {
             $meteoWeather = $meteoData->getWeather();
-            foreach ($meteoWeather['forecastTimestamps'] as $meteoForecast) {
+            foreach ($meteoWeather['forecastTimestamps']  as $iteration => $meteoForecast) {
                 $model = new ForecastModel();
                 $model->setTimestamp(
                     DateTime::createFromFormat(
                         'Y-m-d H:i:s', $meteoForecast['forecastTimeUtc'],
-                        new \DateTimeZone('UTC')
-                    )->setTimezone(new \DateTimeZone('Europe/Vilnius'))->getTimestamp()
+                        new DateTimeZone('UTC')
+                    )->getTimestamp()
                 )
                     ->setTemperature($meteoForecast['airTemperature'])
                     ->setWindDirection($meteoForecast['windDirection'])
@@ -129,12 +130,12 @@ class WeatherService extends BaseService
         }
 
         $count = 0;
+
         foreach ($weather['list'] as $forecast) {
             $model = null;
             $count++;
-
-            $model = $this->findModel($formattedData, $forecast["dt"]) ?? new ForecastModel();
-            $model->setTimestamp($forecast["dt"])
+            $model = $this->findModel($formattedData, $forecast["dt"] - $weather['city']['timezone']) ?? new ForecastModel();
+            $model->setTimestamp($forecast["dt"] - $weather['city']['timezone'])
                 ->setTemperature($model->getTemperature() ?? $forecast["main"]['temp'])
                 ->setFeeledTemperature($forecast["main"]['feels_like'])
                 ->setSeaLevelPressure($model->getSeaLevelPressure() ??$forecast["main"]['sea_level'])
