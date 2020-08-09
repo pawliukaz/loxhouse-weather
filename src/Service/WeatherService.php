@@ -99,6 +99,7 @@ class WeatherService extends BaseService
         /** @var ForecastModel[]|ArrayCollection $formattedData */
         $formattedData = new ArrayCollection();
         $meteoData = $this->meteoRepository->findLatest(MeteoPlace::getPlace((float)$long, (float)$lat));
+
         $data = $this->repository->findLatest();
         $data = current($data);
         $weather = $data->getWeather();
@@ -121,7 +122,7 @@ class WeatherService extends BaseService
                     ->setLowClouds($meteoForecast['cloudCover'])
                     ->setMediumClouds($meteoForecast['cloudCover'])
                     ->setHighClouds($meteoForecast['cloudCover'])
-                    ->setRelativeHumidity($meteoForecast['relativeHumidity'])
+                    ->setRelativeHumidity($meteoForecast['relativeHumidity'] ?? 0)
                     ->setCape(0)
                     ->setPictoCode($this->getMeteoPicoCode($meteoForecast['conditionCode']))
                 ;
