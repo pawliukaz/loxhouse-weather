@@ -13,12 +13,15 @@ RUN ln -s /php/composer.phar /usr/bin/composer
 
 # Install depenedencies and PHP extensions
 RUN apt-get update \
- && apt-get install -y libzip-dev bash-completion procps nano libicu-dev g++ libpng-dev libcurl4-gnutls-dev git wget gzip unzip \
+ && apt-get install -y libzip-dev bash-completion procps nano librabbitmq-dev libicu-dev g++ libpng-dev libcurl4-gnutls-dev git wget gzip unzip \
  && docker-php-ext-install -j$(nproc) zip mysqli pdo_mysql intl calendar exif gd gettext pcntl sockets opcache \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pecl install redis \
     && docker-php-ext-enable redis
+
+RUN pecl install amqp \
+    && docker-php-ext-enable amqp
 
 # xDebug helpers (do not use this in real production)
 ADD enable_xdebug.sh /enable_xdebug.sh
@@ -32,8 +35,6 @@ RUN pecl install xdebug-2.7.0 && \
 # Add Symfony extension
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv ~/.symfony/bin/symfony /usr/local/bin/symfony
-
-
 
 # Not root user
 RUN useradd -c 'PHP user' -m -d /home/php -s /bin/bash php

@@ -30,11 +30,14 @@ framework:
         default_redis_provider: '%env(resolve:REDIS_URL)%'
 
         pools:
-            doctrine.result_cache_pool:
+            doctrine.query_cache_pool:
                 adapter: cache.adapter.redis
             doctrine.system_cache_pool:
                 adapter: cache.adapter.redis
+            doctrine.result_cache_pool:
+                adapter: cache.adapter.redis
             doctrine.region_cache_pool:
+                default_lifetime: 60
                 adapter: cache.adapter.redis
             app.cache.sun:
                 default_lifetime: 432000

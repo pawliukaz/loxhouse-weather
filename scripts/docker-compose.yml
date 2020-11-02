@@ -28,3 +28,17 @@ services:
     image: redis:latest
     volumes:
       - ../.docker/redis/:/data
+
+  rabbitmq.symfony:
+    container_name: rabbitmq.symfony
+    image: rabbitmq:management
+    volumes:
+      - ../.docker/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+      RABBITMQ_DEFAULT_VHOST: /
