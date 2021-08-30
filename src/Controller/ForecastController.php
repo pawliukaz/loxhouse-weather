@@ -103,7 +103,15 @@ class ForecastController extends Controller
                 $response
             );
         }
-        $response = new Response('', 200,['Content-Type' => 'text/plain']);
+        $response = new Response(
+            '',
+            200,
+            [
+                'Vary' => 'Accept-Encoding',
+                'Content-Type' => 'text/plain',
+                'Transfer-Encoding' => 'chunked'
+            ]
+        );
         $sunRise = clone $sunRise->setTimezone(new DateTimeZone('Europe/Vilnius'));
         $sunSet = clone $sunSet->setTimezone(new DateTimeZone('Europe/Vilnius'));
         return $this->render(
