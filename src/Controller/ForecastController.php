@@ -83,7 +83,14 @@ class ForecastController extends Controller
         }
         $data = $this->service->getForecastData();
         if (0 === (int)$request->get('format')) {
-            $response = new Response('', 200,['Content-Type' => 'text/xml']);
+            $response = new Response(
+                '', 200,
+                [
+                    'Vary' => 'Accept-Encoding',
+                    'Content-Type' => 'text/xml',
+                    'Transfer-Encoding' => 'chunked'
+                ]
+            );
             return $this->render(
                 'weather/forecast.xml.twig',
                 [
