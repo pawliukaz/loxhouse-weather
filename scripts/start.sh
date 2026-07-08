@@ -7,7 +7,7 @@ popd > /dev/null
 
 # Prerequisits
 docker --version > /dev/null 2>&1 || { echo >&2 "Docker not found. Please install it via https://docs.docker.com/install/"; exit 1; }
-docker-compose --version > /dev/null 2>&1 || { echo >&2 "Docker-compose not found. Please install it via https://docs.docker.com/compose/install/"; exit 1; }
+docker compose --version > /dev/null 2>&1 || { echo >&2 "Docker-compose not found. Please install it via https://docs.docker.com/compose/install/"; exit 1; }
 if [ ! -f "$SCRIPT_DIR/../.env" ]; then
     if [ -f "$SCRIPT_DIR/../.env.dist" ]; then
         cp "$SCRIPT_DIR/../.env.dist" "$SCRIPT_DIR/../.env"
@@ -23,7 +23,7 @@ mkdir -p -m 777 "$SCRIPT_DIR/../.docker/ide-home"
 
 # Start server
 echo "Starting docker containers..."
-docker-compose -f "$SCRIPT_DIR/docker-compose.yml" up -d
+docker compose -f "$SCRIPT_DIR/docker-compose.yml" up -d
 
 # Documentation for end user
 if [ -d "vendor" ] && [ -d "node_modules" ]; then

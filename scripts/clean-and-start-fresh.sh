@@ -31,8 +31,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     docker rm -f frontend.symfony
 
     echo "Pulling newest container images..."
-    docker-compose -f "$SCRIPT_DIR/docker-compose.yml" pull
-    docker-compose -f "$SCRIPT_DIR/docker-compose-tools.yml" pull
+    docker compose -f "$SCRIPT_DIR/docker-compose.yml" pull
+    docker compose -f "$SCRIPT_DIR/docker-compose-tools.yml" pull
 
     echo "Everything cleared"
     echo "You can start fresh with: scripts/start.sh && scripts/install-dev.sh"
