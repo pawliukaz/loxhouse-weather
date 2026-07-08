@@ -29,13 +29,27 @@ class WeatherRepository extends ServiceEntityRepository
 
     /**
      * @param int $limit
+     * @param int $offset
      * @return Weather[]
      */
-    public function findLatest(int $limit = 10)
+    public function findLatest(int $limit = 10, int $offset = 0)
     {
         $queryBuilder = $this->createQueryBuilder('w');
         $queryBuilder->orderBy($queryBuilder->expr()->desc('w.took'))
-            ->setMaxResults($limit);
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
         return $queryBuilder->getQuery()->setCacheable(true)->getResult();
+    }
+
+    /**
+     * @return int
+     */
+    public function countAll(): int
+    {
+        return (int)$this->createQueryBuilder('w')
+            ->select('COUNT(w.id)')
+            ->getQuery()
+            ->setCacheable(true)
+            ->getSingleScalarResult();
     }
 }
