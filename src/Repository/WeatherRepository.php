@@ -46,10 +46,15 @@ class WeatherRepository extends ServiceEntityRepository
      */
     public function countAll(): int
     {
+        // NOTE: COUNT(...) returns a scalar result. Doctrine's second level
+        // cache (setCacheable()) only supports entity results and throws
+        // "Second level cache does not support scalar results." for scalar/
+        // aggregate queries. Use the regular query result cache instead,
+        // which supports scalar results just fine.
         return (int)$this->createQueryBuilder('w')
             ->select('COUNT(w.id)')
             ->getQuery()
-            ->setCacheable(true)
+            ->useResultCache(true, self::CACHE_LIFETIME)
             ->getSingleScalarResult();
     }
 }
