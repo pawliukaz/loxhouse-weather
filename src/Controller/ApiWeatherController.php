@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Service\WeatherService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ApiWeatherController extends AbstractController
 {
@@ -22,9 +22,7 @@ class ApiWeatherController extends AbstractController
         $this->weatherService = $weatherService;
     }
 
-    /**
-     * @Route("/api/weather", name="weather")
-     */
+    #[Route(path: '/api/weather', name: 'weather')]
     public function index(): Response
     {
         

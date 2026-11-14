@@ -31,7 +31,7 @@ class MeteoDownloadCommand extends Command
      * @inheritDoc
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $inputOutput = new SymfonyStyle($input, $output);
         $startTime =  DateTime::createFromFormat('U.u', (string)microtime(TRUE));
@@ -49,6 +49,8 @@ class MeteoDownloadCommand extends Command
             ]
         );
         $inputOutput->success('Done.');
+        
+        return Command::SUCCESS;
     }
 
 
