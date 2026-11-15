@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Util\Uuid;
 
 /**
  * Class Weather
@@ -15,10 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Weather
 {
     /**
-     * @var string
      * @ORM\Id()
      * @ORM\Column(type="guid")
-     * @ORM\GeneratedValue(strategy="UUID");
      */
     protected $id;
 
@@ -33,6 +32,11 @@ class Weather
      * @ORM\Column(type="json")
      */
     protected $weather;
+
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
 
     /**
      * @return string

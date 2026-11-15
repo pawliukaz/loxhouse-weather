@@ -31,7 +31,7 @@ class WeatherDownloadCommand extends Command
     /**
      * @inheritDoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Download weather open server data')
@@ -44,7 +44,7 @@ class WeatherDownloadCommand extends Command
      * @return int|null|void
      * @throws GuzzleException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $inputOutput = new SymfonyStyle($input, $output);
         try {
@@ -54,5 +54,7 @@ class WeatherDownloadCommand extends Command
         }
 
         $inputOutput->success('Done.');
+
+        return Command::SUCCESS;
     }
 }

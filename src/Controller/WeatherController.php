@@ -6,7 +6,7 @@ use App\Service\WeatherService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class WeatherController extends AbstractController
 {
@@ -25,11 +25,7 @@ class WeatherController extends AbstractController
         $this->weatherService = $weatherService;
     }
 
-    /**
-     * @Route("/", name="weather")
-     * @param Request $request
-     * @return Response
-     */
+    #[Route(path: '/', name: 'weather')]
     public function index(Request $request): Response
     {
         $limit = self::PER_PAGE;
@@ -45,4 +41,3 @@ class WeatherController extends AbstractController
         ]);
     }
 }
-

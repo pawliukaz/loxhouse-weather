@@ -6,6 +6,7 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use App\Util\Uuid;
 
 /**
  * Class MeteoWeather
@@ -17,10 +18,8 @@ use Exception;
 class MeteoWeather
 {
     /**
-     * @var int
      * @ORM\Id()
      * @ORM\Column(type="guid")
-     * @ORM\GeneratedValue(strategy="UUID");
      */
     protected $id;
 
@@ -47,13 +46,14 @@ class MeteoWeather
      */
     public function __construct()
     {
+        $this->id = Uuid::v4();
         $this->took = new DateTime();
     }
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -62,7 +62,7 @@ class MeteoWeather
      * @param int $id
      * @return MeteoWeather
      */
-    public function setId(int $id): self
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;

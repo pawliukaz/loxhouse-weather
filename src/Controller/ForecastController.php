@@ -10,15 +10,13 @@ use DateTimeZone;
 use Exception;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
-* @Route("/")
-*/
-class ForecastController extends Controller
+#[Route(path: '/')]
+class ForecastController extends AbstractController
 {
     /**
      * @var LoggerInterface
@@ -65,12 +63,12 @@ class ForecastController extends Controller
     }
 
     /**
-     * @Route("/forecast/")
      * @param Request $request
      * @return Response
      * @throws Exception
      * @throws InvalidArgumentException
      */
+    #[Route(path: '/forecast/')]
     public function forecastAction(Request $request)
     {
         $coordinates = explode(',', $request->get('coord'));

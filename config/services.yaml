@@ -29,7 +29,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    App\Client\OpenWeatherClient: '@eight_points_guzzle.client.open_weather_api'
-    App\Client\SunClient: '@eight_points_guzzle.client.sun_api'
-    App\Client\MeteoClient: '@eight_points_guzzle.client.meteo_api'
+    App\Client\OpenWeatherClient:
+        arguments:
+            - { base_uri: 'https://api.openweathermap.org', timeout: 30, http_errors: true, headers: { User-Agent: 'Pauliaus Loxone', Accept: 'application/json' } }
+    App\Client\SunClient:
+        arguments:
+            - { base_uri: 'https://api.sunrise-sunset.org/', timeout: 30, http_errors: true, headers: { User-Agent: 'Pauliaus Loxone', Accept: 'application/json' } }
+    App\Client\MeteoClient:
+        arguments:
+            - { base_uri: 'https://api.meteo.lt/', timeout: 30, http_errors: true, headers: { User-Agent: 'Pauliaus Loxone', Accept: 'application/json' } }
 
