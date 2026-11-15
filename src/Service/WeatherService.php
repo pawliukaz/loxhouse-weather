@@ -81,11 +81,23 @@ class WeatherService extends BaseService
     }
 
     /**
+     * @param int $page
+     * @param int $limit
      * @return Weather[]
      */
-    public function getWeatherData(): array
+    public function getWeatherData(int $page = 1, int $limit = 10): array
     {
-        return $this->repository->findLatest();
+        $page = max(1, $page);
+
+        return $this->repository->findLatest($limit, ($page - 1) * $limit);
+    }
+
+    /**
+     * @return int
+     */
+    public function getWeatherCount(): int
+    {
+        return $this->repository->countAll();
     }
 
     /**

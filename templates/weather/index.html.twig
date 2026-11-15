@@ -12,7 +12,7 @@
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper { margin: 1em auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
@@ -40,8 +40,69 @@
                     {{ item.weather.list|last.dt|date('Y-m-d H:i:s') }}
                 </td>
             </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">{{ 'No weather data available'|trans() }}</td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    {% if totalPages is defined and totalPages > 1 %}
+        {% set window = 2 %}
+        {% set startPage = max(1, currentPage - window) %}
+        {% set endPage = min(totalPages, currentPage + window) %}
+        <nav aria-label="{{ 'Weather pages'|trans() }}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {{ currentPage <= 1 ? 'disabled' : '' }}">
+                    {% if currentPage > 1 %}
+                        <a class="page-link" href="{{ path('weather', {page: currentPage - 1}) }}" rel="prev">&laquo; {{ 'Previous'|trans() }}</a>
+                    {% else %}
+                        <span class="page-link">&laquo; {{ 'Previous'|trans() }}</span>
+                    {% endif %}
+                </li>
+
+                {% if startPage > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('weather', {page: 1}) }}">1</a>
+                    </li>
+                    {% if startPage > 2 %}
+                        <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+                    {% endif %}
+                {% endif %}
+
+                {% for i in startPage..endPage %}
+                    <li class="page-item {{ i == currentPage ? 'active' : '' }}">
+                        {% if i == currentPage %}
+                            <span class="page-link">{{ i }}</span>
+                        {% else %}
+                            <a class="page-link" href="{{ path('weather', {page: i}) }}">{{ i }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+                {% if endPage < totalPages %}
+                    {% if endPage < totalPages - 1 %}
+                        <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+                    {% endif %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('weather', {page: totalPages}) }}">{{ totalPages }}</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item {{ currentPage >= totalPages ? 'disabled' : '' }}">
+                    {% if currentPage < totalPages %}
+                        <a class="page-link" href="{{ path('weather', {page: currentPage + 1}) }}" rel="next">{{ 'Next'|trans() }} &raquo;</a>
+                    {% else %}
+                        <span class="page-link">{{ 'Next'|trans() }} &raquo;</span>
+                    {% endif %}
+                </li>
+            </ul>
+            <p class="text-center text-muted">
+                {{ 'Page'|trans() }} {{ currentPage }} {{ 'of'|trans() }} {{ totalPages }}
+                ({{ totalItems }} {{ 'records'|trans() }})
+            </p>
+        </nav>
+    {% endif %}
 </div>
 {% endblock %}
